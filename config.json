@@ -1,0 +1,19 @@
+{
+  "accepts": ["id"],
+  "classes": ["SequenceFeature"],
+  "depends": ["ExpressionValue"],
+  "columnMapping": {
+    "Gene": {
+      "id": "primaryIdentifier"
+    }
+  },
+  "files" : {
+    "css" : "dist/style.css",
+    "js" : "dist/bundle.js"
+  },
+  "toolName" : {
+    "human" :"Bluegenes Expression Barchart",
+    "cljs" :"bluegenesExpressionBarchart"    
+  },
+  "version": 2
+}
