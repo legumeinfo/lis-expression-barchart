@@ -14,7 +14,7 @@ class RootContainer extends React.Component {
 	    expressionData: null,
 	    expressionBarchartData: null,
 	    expressionOptions: {
-		scale: 'linear', // log or linear
+		scale: 'linear'  // log or linear
 	    },
 	    error: null
 	};

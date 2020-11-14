@@ -1,5 +1,5 @@
 function getChartData(results, dataOptions) {
-    const { sort, scale } = dataOptions;
+    const { scale } = dataOptions;
     // sort according to sample number
     results.sort((r1, r2) => {
 	let valA, valB;

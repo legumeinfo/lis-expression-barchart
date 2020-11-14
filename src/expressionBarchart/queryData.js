@@ -1,6 +1,7 @@
 const featureToExpressionQuery = ({ featureId }) => ({
     from: 'ExpressionValue',
     select: [
+        'feature.id',
 	'feature.secondaryIdentifier',
 	'feature.symbol',
         'value',
@@ -10,7 +11,7 @@ const featureToExpressionQuery = ({ featureId }) => ({
     ],
     orderBy: [
 	{
-	    path: 'num',
+	    path: 'sample.num',
 	    direction: 'ASC'
 	}
     ],
