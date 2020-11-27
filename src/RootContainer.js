@@ -36,7 +36,7 @@ class RootContainer extends React.Component {
 	// fetch data for expression barchart
 	queryExpressionData(featureId, serviceUrl)
 	    .then(res => {
-		const results = res.expressionValues;
+		const results = res;
 		const chartData = getExpressionBarchartData(
 		    results,
 		    this.state.expressionOptions
@@ -76,7 +76,7 @@ class RootContainer extends React.Component {
 		    <>
 			<ExpressionBarchart
 			    chartData={this.state.expressionBarchartData}
-			    dataOptions={this.state.expressionOptions}
+		            dataOptions={this.state.expressionOptions}
 			/>
 			<ExpressionBarchartControls
 			    controlOptions={this.state.expressionOptions}
