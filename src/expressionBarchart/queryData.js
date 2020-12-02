@@ -52,6 +52,7 @@ function rearrange(data) {
     for (var i=0; i<data.length; i++) {
         results.push(
             {
+                "feature": data[i].feature.secondaryIdentifier,
                 "value": data[i].value,
                 "dataSets": data[i].sample.dataSets,
                 "sample": {

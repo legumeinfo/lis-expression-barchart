@@ -12,6 +12,7 @@ function getChartData(results, dataOptions) {
     const chartData = {
 	values: [],
         sampleNames: [],
+        features: []
     };
 
     results.forEach(result => {
@@ -19,6 +20,7 @@ function getChartData(results, dataOptions) {
 	const scaleVal = n => (scale === 'log' ? Math.log2(n) : n);
 	chartData.values.push(scaleVal(Number(result.value)));
 	chartData.sampleNames.push(result.sample.name);
+        chartData.features.push(result.feature);
     });
 
     return chartData;

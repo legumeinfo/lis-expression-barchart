@@ -11,9 +11,9 @@ class ExpressionBarchart extends React.Component {
 		labels: chartData.sampleNames,
 		datasets: [
 		    {
-			label: [],
+			label: chartData.features[0],
 			data: chartData.values,
-			backgroundColor: '#aaa',
+			backgroundColor: '#373',
 			borderWidth: 2
 		    }
 		]
