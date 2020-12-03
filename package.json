@@ -6,7 +6,7 @@
   "homepage": "http://www.intermine.org",
   "repository": {
     "type": "git",
-    "url": "https://github.com/intermine/bluegenes-expression-barchart"
+    "url": "https://github.com/legumeinfo/bluegenes-expression-barchart"
   },
   "scripts": {
     "test": "jest",
