@@ -33,6 +33,9 @@ class RootContainer extends React.Component {
 	    serviceUrl
 	} = this.props;
 
+        // don't show barchart on lists
+        if (Array.isArray(featureId)) return;
+
 	// fetch data for expression barchart
 	queryExpressionData(featureId, serviceUrl)
 	    .then(res => {
@@ -47,8 +50,8 @@ class RootContainer extends React.Component {
 		});
 	    })
 	    .catch(() =>
-		this.setState({ error: 'No Expression Data Found!' })
-	    );
+		   this.setState({ error: 'No Expression Data Found!' })
+	          );
     }
 
     changeOptions(ev) {
@@ -69,6 +72,10 @@ class RootContainer extends React.Component {
 	if (this.state.error) {
 	    return <div className="rootContainer error">{this.state.error}</div>;
 	}
+
+        if (Array.isArray(this.props.entity.value)) {
+            return <div></div>;
+        }
 
 	return (
 	    <div className="rootContainer">

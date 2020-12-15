@@ -1,72 +1,60 @@
 import React from 'react';
-import Chart from 'chart.js';
+import { Chart, Tooltip, BarElement, BarController, CategoryScale, LinearScale, Title } from 'chart.js';
+
+Chart.register(Tooltip, BarElement, BarController, CategoryScale, LinearScale, Title);
 
 class ExpressionBarchart extends React.Component {
     componentDidMount() {
 	const { chartData, dataOptions } = this.props;
 	if (!chartData) return;
 	this.chart = new Chart(this.graph, {
-	    type: 'horizontalBar',
+	    type: 'bar',
 	    data: {
 		labels: chartData.sampleNames,
 		datasets: [
 		    {
-			label: chartData.features[0],
+                        indexAxis: 'y',
 			data: chartData.values,
 			backgroundColor: '#373',
-			borderWidth: 2
+			borderWidth: 0
 		    }
 		]
 	    },
 	    options: {
-		title: {
-		    text: 'Expression by Sample',
-		    display: true,
-		    fontSize: 18,
-		    position: 'top',
-		    fontStyle: 'bold',
-		    fontColor: '#000'
-		},
-		// tooltips: {
-		//     callbacks: {
-		// 	label(tooltipItem) {
-		// 	    return chartData.hoverTexts[tooltipItem.index];
-		// 	}
-		//     },
-		//     backgroundColor: '#ffffff',
-		//     bodyFontColor: '#000000',
-		//     titleFontColor: '#000000',
-		//     titleFontSize: 16,
-		//     bodyFontSize: 14,
-		//     borderColor: '#dadada',
-		//     borderWidth: 1
-		// },
-		scales: {
-		    yAxes: [
-			{
-			    scaleLabel: {
-				display: true,
-				labelString: 'Sample Name',
-				fontSize: 16,
-				fontStyle: 'italic',
-				fontColor: '#000'
-			    }
-			}
-		    ],
-		    xAxes: [
-			{
-			    scaleLabel: {
-				display: true,
-				labelString: 'Expression (TPM)',
-				fontSize: 16,
-				fontStyle: 'italic',
-				fontColor: '#000'
-			    }
-			}
-		    ]
-		},
-		maintainAspectRatio: true,
-		responsive: true
+                plugins: {
+	            title: {
+	                text: 'Expression by Sample (TPM)',
+	                position: 'top',
+	                display: true,
+                        font: {
+	                    size: 16,
+	                    style: 'bold'
+                        }
+	            }
+                },
+                // need to figure out how to label TPM axis!
+	        // scales: {
+	        //     x: {
+	        //         scaleLabel: {
+	        //             display: true,
+	        //             labelString: 'Sample Name',
+	        //             fontSize: 16,
+	        //             fontStyle: 'italic',
+	        //             fontColor: '#000'
+	        //         }
+	        //     },
+	        //     y: {
+	        //         scaleLabel: {
+	        //             display: true,
+	        //             labelString: 'Expression (TPM)',
+	        //             fontSize: 16,
+	        //             fontStyle: 'italic',
+	        //             fontColor: '#000'
+	        //         }
+	        //     }
+	        // },
+	        maintainAspectRatio: true,
+	        responsive: true
 	    }
 	});
     }

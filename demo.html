@@ -34,25 +34,25 @@
         <div class="bluegenesExpressionBarchart main-container" id='visualizer' />
         <script>
          window.onload = function() {
-             //The element to attach the viewer to. Must be an existing DOM element
-             var elem = document.getElementById('visualizer'),
-    	         //InterMine service, including URL and token.
-    	             imURL = {
-    	                 root: 'https://dev.lis.ncgr.org/beanmine',
-    	                 //could include token here too if we had one
-    	             },
-    	         //this is an example of data that could be passed to this tool be BlueGenes
-             //in reality (outside the demo) this would be dynamic and not hard-coded
+             // The element to attach the viewer to. Must be an existing DOM element
+             var elem = document.getElementById('visualizer');
+             // InterMine service, including URL and token.
+    	     var imURL = {
+    	         root: 'https://mines.legumeinfo.org/beanmine'
+    	         //could include token here too if we had one
+    	     };
+    	     // this is an example of data that could be passed to this tool be BlueGenes
+             // in reality (outside the demo) this would be dynamic and not hard-coded
              // to an ID.
-             dataToInitialiseToolWith = {
+             var dataToInitialiseToolWith = {
 	         SequenceFeature: {
 	             class: 'SequenceFeature',
 	             format: 'id',
-                     // a BeanMine gene with expression
+                     // a single BeanMine gene with expression -- NOT an array!
 	             value: 9051882
 	         }
-             },
-    	         toolState = {}; //to be confirmed how we use this.
+             };
+    	     var toolState = {}; //to be confirmed how we use this.
              // THIS LINE IS THE IMPORTANT BIT. YOU SHOULDN'T NEED TO EDIT IT
              // the method signature should match the signature in src/index.js
              $.ajax('config.json').then(function(config) {
