@@ -1,5 +1,5 @@
 {
-  "name": "bluegenes-expression-barchart",
+  "name": "legumeinfo/bluegenes-expression-barchart",
   "version": "2.0.1",
   "main": "src/index.js",
   "description": "Displays a bar chart of expression versus sample on a gene report page.",
