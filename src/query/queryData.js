@@ -24,28 +24,6 @@ const featureToExpressionQuery = ({ featureId }) => ({
     ]
 });
 
-// eslint-disable-next-line
-function queryData(featureId, serviceUrl, imjsClient = imjs) {
-    return new Promise((resolve, reject) => {
-	// eslint-disable-next-line
-	const service = new imjsClient.Service({ root: serviceUrl });
-	service
-	    .records(featureToExpressionQuery({ featureId }))
-	    .then(data => {
-                // rearrange into expected format
-                data = rearrange(data);
-		if (data && data.length) {
-                    resolve(data[0]);
-		} else {
-                    reject('No data found!');
-                }
-	    })
-	    .catch(reject);
-    });
-}
-
-export default queryData;
-
 // rearrange the data from an ExpressionValue query into the form expected by this tool
 function rearrange(data) {
     var results = [];
@@ -68,3 +46,25 @@ function rearrange(data) {
     }
     return([results]);
 }
+
+// eslint-disable-next-line
+function queryData(featureId, serviceUrl, imjsClient = imjs) {
+    return new Promise((resolve, reject) => {
+	// eslint-disable-next-line
+	const service = new imjsClient.Service({ root: serviceUrl });
+	service
+	    .records(featureToExpressionQuery({ featureId }))
+	    .then(data => {
+                // rearrange into expected format
+                data = rearrange(data);
+		if (data && data.length) {
+                    resolve(data[0]);
+		} else {
+                    reject('No data found!');
+                }
+	    })
+	    .catch(reject);
+    });
+}
+
+export default queryData;
