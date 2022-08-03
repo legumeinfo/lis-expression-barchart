@@ -11,44 +11,6 @@ function RootContainer({ serviceUrl, entity, config }) {
     const [error, setError] = useState(null);
     const [chartData, setChartData] = useState(null);
     
-    // default chart options
-    const [chartOptions, setChartOptions] = useState({
-        plugins: {
-	    title: {
-	        text: 'Expression by Sample (TPM)',
-	        position: 'top',
-	        display: true,
-                font: {
-	            size: 16,
-	            style: 'bold'
-                }
-	    }
-        },
-        // need to figure out how to label TPM axis!
-	// scales: {
-	//     x: {
-	//         scaleLabel: {
-	//             display: true,
-	//             labelString: 'Sample Name',
-	//             fontSize: 16,
-	//             fontStyle: 'italic',
-	//             fontColor: '#000'
-	//         }
-	//     },
-	//     y: {
-	//         scaleLabel: {
-	//             display: true,
-	//             labelString: 'Expression (TPM)',
-	//             fontSize: 16,
-	//             fontStyle: 'italic',
-	//             fontColor: '#000'
-	//         }
-	//     }
-	// },
-	maintainAspectRatio: true,
-	responsive: true,
-    });
-
     // query data for expression barchart
     // TIP: useEffect with empty array dependency only runs once!
     useEffect(() => {
@@ -67,9 +29,9 @@ function RootContainer({ serviceUrl, entity, config }) {
     
     return (
         <div>
-            {(chartData && chartOptions) ? (
+            {chartData ? (
 	        <div className="rootContainer">
-	            <ExpressionBarchart chartData={chartData} chartOptions={chartOptions} />
+	            <ExpressionBarchart data={chartData} />
                 </div>
             ) : (
                 <Loader />

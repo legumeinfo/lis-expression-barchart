@@ -5,18 +5,42 @@ import {
     BarElement,
     Tooltip,
 } from 'chart.js';
+
 import { ReactChart } from 'chartjs-react';
 
 ReactChart.register(BarController, CategoryScale, LinearScale, BarElement, Tooltip);
 
-export function ExpressionBarchart({ chartData, chartOptions }) {
-    if (!chartData || !chartOptions) return;
+export function ExpressionBarchart({ data }) {
+    if (!data) return;
+
+    // default chart options
+    const options = {
+        scales: {
+            myScale: {
+                type: 'category',
+                position: 'left', // `axis` is determined by the position as `'y'`
+            },
+            x: {
+                type: 'linear',
+                position: 'bottom',
+                title: {
+                    text: 'TPM',
+                    display: true,
+                },
+            },
+        },
+	maintainAspectRatio: true,
+	responsive: true,
+    };
+
     return (
         <ReactChart
+            id="expression-bar-chart"
             type="bar"
-            data={chartData}
-            options={chartOptions}
-            height={ chartData.sampleNames.length>30 ? '260px' : '' }
+            data={data}
+            options={options}
+            height={ data.sampleNames.length>30 ? '260px' : '' }
         />
     );
 }
+
