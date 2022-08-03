@@ -1,101 +1,83 @@
 import React from 'react';
 import Loader from './common/loader';
-import {
-    chart as ExpressionBarchart,
-    controls as ExpressionBarchartControls,
-    queryData as queryExpressionData,
-    getChartData as getExpressionBarchartData
-} from './expressionBarchart';
+import { useState, useEffect } from 'react';
 
-class RootContainer extends React.Component {
-    constructor(props) {
-	super(props);
-	this.state = {
-	    expressionData: null,
-	    expressionBarchartData: null,
-	    expressionOptions: {
-		scale: 'linear'  // log or linear
-	    },
-	    error: null
-	};
-	this.changeOptions = this.changeOptions.bind(this);
-    }
+import queryData from "./query/queryData.js";
+import getChartData from "./chart/getChartData.js";
 
-    componentDidMount() {
-	// when testing via jest, don't do all the calcs
-	if (this.props.testing) return;
+import { ExpressionBarchart } from "./components/ExpressionBarchart.js";
+         
+function RootContainer({ serviceUrl, entity, config }) {
+    const [error, setError] = useState(null);
+    const [chartData, setChartData] = useState(null);
+    
+    // default chart options
+    const [chartOptions, setChartOptions] = useState({
+        plugins: {
+	    title: {
+	        text: 'Expression by Sample (TPM)',
+	        position: 'top',
+	        display: true,
+                font: {
+	            size: 16,
+	            style: 'bold'
+                }
+	    }
+        },
+        // need to figure out how to label TPM axis!
+	// scales: {
+	//     x: {
+	//         scaleLabel: {
+	//             display: true,
+	//             labelString: 'Sample Name',
+	//             fontSize: 16,
+	//             fontStyle: 'italic',
+	//             fontColor: '#000'
+	//         }
+	//     },
+	//     y: {
+	//         scaleLabel: {
+	//             display: true,
+	//             labelString: 'Expression (TPM)',
+	//             fontSize: 16,
+	//             fontStyle: 'italic',
+	//             fontColor: '#000'
+	//         }
+	//     }
+	// },
+	maintainAspectRatio: true,
+	responsive: true,
+    });
 
-	if (!this.props.entity || !this.props.serviceUrl)
-	    throw new Error('No `entity` or `serviceUrl` passed as prop');
-
-	const {
-	    entity: { value: featureId },
-	    serviceUrl
-	} = this.props;
-
-        // don't show barchart on lists
-        if (Array.isArray(featureId)) return;
-
-	// fetch data for expression barchart
-	queryExpressionData(featureId, serviceUrl)
+    // query data for expression barchart
+    // TIP: useEffect with empty array dependency only runs once!
+    useEffect(() => {
+        queryData(entity.value, serviceUrl)
 	    .then(res => {
-		const results = res;
-		const chartData = getExpressionBarchartData(
-		    results,
-		    this.state.expressionOptions
-		);
-		this.setState({
-		    expressionData: results,
-		    expressionBarchartData: chartData
-		});
+	        setChartData(getChartData(res));
 	    })
-	    .catch(() =>
-		   this.setState({ error: 'No Expression Data Found!' })
-	          );
-    }
+	    .catch(() => {
+	        setError("No Expression Data Found!");
+	    });
+    }, []);
 
-    changeOptions(ev) {
-	const { name, value } = ev.target;
-	const chartData = getExpressionBarchartData(
-	    this.state.expressionData,
-	    Object.assign({}, this.state.expressionOptions, { [name]: value })
-	);
-	this.setState({
-	    expressionOptions: Object.assign({}, this.state.expressionOptions, {
-		[name]: value
-	    }),
-	    expressionBarchartData: chartData
-	});
-    }
-
-    render() {
-	if (this.state.error) {
-	    return <div className="rootContainer error">{this.state.error}</div>;
-	}
-
-        if (Array.isArray(this.props.entity.value)) {
-            return <div></div>;
-        }
-
-	return (
-	    <div className="rootContainer">
-		{this.state.expressionBarchartData ? (
-		    <>
-			<ExpressionBarchart
-			    chartData={this.state.expressionBarchartData}
-		            dataOptions={this.state.expressionOptions}
-			/>
-			<ExpressionBarchartControls
-			    controlOptions={this.state.expressionOptions}
-			    changeOptions={this.changeOptions}
-			/>
-		    </>
-		) : (
-		    <Loader />
-		)}
-	    </div>
-	);
-    }
+    if (error) return (
+        <div className="rootContainer error">{ error }</div>
+    );
+    
+    return (
+        <div>
+            {(chartData && chartOptions) ? (
+	        <div className="rootContainer">
+	            <ExpressionBarchart chartData={chartData} chartOptions={chartOptions} />
+                </div>
+            ) : (
+                <Loader />
+            )}
+        </div>
+    );
+    
 }
 
+// need to export here for some reason
 export default RootContainer;
