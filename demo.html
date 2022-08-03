@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>
-      Bluegenes Expression Barchart
+      LIS Expression Barchart
     </title>
 
     <!-- You can assume imjs is on the window.  -->
@@ -31,7 +31,7 @@
 </script>
 </head>
 <body>
-  <div class="bluegenesExpressionBarchart main-container" id='visualizer' />
+  <div class="lisExpressionBarchart main-container" id='visualizer' />
   <script>
     window.onload = function() {
         // The element to attach the viewer to. Must be an existing DOM element
@@ -56,7 +56,7 @@
         // THIS LINE IS THE IMPORTANT BIT. YOU SHOULDN'T NEED TO EDIT IT
         // the method signature should match the signature in src/index.js
         $.ajax('config.json').then(function(config) {
-    	    bluegenesExpressionBarchart.main(
+    	    lisExpressionBarchart.main(
     	        elem,
 	        imURL,
 		dataToInitialiseToolWith,

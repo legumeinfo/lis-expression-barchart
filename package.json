@@ -1,12 +1,12 @@
 {
-  "name": "legumeinfo/bluegenes-expression-barchart",
+  "name": "legumeinfo/lis-expression-barchart",
   "version": "2.1.0",
   "main": "src/index.js",
   "description": "Displays a bar chart of expression versus sample on a gene report page.",
   "homepage": "http://www.intermine.org",
   "repository": {
     "type": "git",
-    "url": "https://github.com/legumeinfo/bluegenes-expression-barchart"
+    "url": "https://github.com/legumeinfo/lis-expression-barchart"
   },
   "scripts": {
     "test": "jest",

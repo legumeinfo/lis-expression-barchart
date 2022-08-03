@@ -4,14 +4,10 @@
 
 BlueGenes Expression Barchart is a tool made for [BlueGenes](http://bluegenes.apps.intermine.org) following BlueGenes Tool API. It displays gene expression versus sample in a simple bar chart.
 
-# NPM Package
-
-[@intermine/bluegenes-expression-barchart](https://www.npmjs.com/package/@intermine/bluegenes-expression-barchart)
-
 ### To set up locally for development
 
 1. Clone the repo
-2. `cd bluegenes-expression-barchart` and then `npm install` to install dependencies.
+2. `cd lis-expression-barchart` and then `npm install` to install dependencies.
 
 All of the editable source files for css and js are in `src`. To bundle for prod, run the following commands:
 
