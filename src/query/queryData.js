@@ -1,4 +1,4 @@
-const featureToExpressionQuery = ({ featureId }) => ({
+const pathQuery = ({ featureId }) => ({
     from: 'ExpressionValue',
     select: [
         'value',
@@ -47,13 +47,12 @@ function rearrange(data) {
     return([results]);
 }
 
-// eslint-disable-next-line
 function queryData(featureId, serviceUrl, imjsClient = imjs) {
     return new Promise((resolve, reject) => {
 	// eslint-disable-next-line
 	const service = new imjsClient.Service({ root: serviceUrl });
 	service
-	    .records(featureToExpressionQuery({ featureId }))
+	    .records(pathQuery({ featureId }))
 	    .then(data => {
                 // rearrange into expected format
                 data = rearrange(data);

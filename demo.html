@@ -18,9 +18,8 @@
     <!-- These are styles that will be inherited from bluegenes -->
     <!-- <link rel="stylesheet" href="css/site.css"> -->
 
-
     <!-- These are the styles YOU implement in src/style.less -->
-    <link rel="stylesheet" href="dist/style.css">
+    <link rel="stylesheet" href="dist/style.css" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.2.0/socket.io.js"></script>
     <script>
       var socket = io("http://localhost:3457");
@@ -28,44 +27,43 @@
 	  document.location.reload();
       });
     </script>
-</script>
-</head>
-<body>
-  <div class="lisExpressionBarchart main-container" id='visualizer' />
-  <script>
-    window.onload = function() {
-        // The element to attach the viewer to. Must be an existing DOM element
-        var elem = document.getElementById('visualizer');
-        // InterMine service, including URL and token.
-    	var imURL = {
-    	    root: 'https://mines.legumeinfo.org/beanmine'
-    	    //could include token here too if we had one
-    	};
-    	// this is an example of data that could be passed to this tool be BlueGenes
-        // in reality (outside the demo) this would be dynamic and not hard-coded
-        // to an ID.
-        var dataToInitialiseToolWith = {
-	    Gene: {
-	        class: 'Gene',
-	        format: 'id',
-                // a single BeanMine gene with expression -- NOT an array!
-	        value: 58503529
-	    }
-        };
-    	var toolState = {}; //to be confirmed how we use this.
-        // THIS LINE IS THE IMPORTANT BIT. YOU SHOULDN'T NEED TO EDIT IT
-        // the method signature should match the signature in src/index.js
-        $.ajax('config.json').then(function(config) {
-    	    lisExpressionBarchart.main(
-    	        elem,
-	        imURL,
-		dataToInitialiseToolWith,
-		toolState,
-		config,
-	    );
-    	});
-    };
-  </script>
-  <script src="dist/bundle.js"></script>
-</body>
+  </head>
+  <body>
+    <div id="visualizer" class="lisExpressionBarchart main-container" />
+    <script>
+      window.onload = function() {
+          // The element to attach the viewer to. Must be an existing DOM element
+          var elem = document.getElementById('visualizer');
+          // InterMine service, including URL and token.
+    	  var imURL = {
+    	      root: 'https://mines.legumeinfo.org/beanmine'
+    	      //could include token here too if we had one
+    	  };
+    	  // this is an example of data that could be passed to this tool be BlueGenes
+          // in reality (outside the demo) this would be dynamic and not hard-coded
+          // to an ID.
+          var dataToInitialiseToolWith = {
+	      Gene: {
+	          class: 'Gene',
+	          format: 'id',
+                  // a single BeanMine gene with expression -- NOT an array!
+	          value: 58503529
+	      }
+          };
+    	  var toolState = {}; //to be confirmed how we use this.
+          // THIS LINE IS THE IMPORTANT BIT. YOU SHOULDN'T NEED TO EDIT IT
+          // the method signature should match the signature in src/index.js
+          $.ajax('config.json').then(function(config) {
+    	      lisExpressionBarchart.main(
+    	          elem,
+	          imURL,
+		  dataToInitialiseToolWith,
+		  toolState,
+		  config,
+	      );
+    	  });
+      };
+    </script>
+    <script src="dist/bundle.js"></script>
+  </body>
 </html>

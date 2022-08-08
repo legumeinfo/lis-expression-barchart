@@ -15,8 +15,8 @@ function RootContainer({ serviceUrl, entity, config }) {
     // TIP: useEffect with empty array dependency only runs once!
     useEffect(() => {
         queryData(entity.value, serviceUrl)
-	    .then(res => {
-	        setChartData(getChartData(res));
+	    .then(response => {
+	        setChartData(getChartData(response));
 	    })
 	    .catch(() => {
 	        setError("No Expression Data Found!");
@@ -28,11 +28,9 @@ function RootContainer({ serviceUrl, entity, config }) {
     );
     
     return (
-        <div>
+        <div className="rootContainer">
             {chartData ? (
-	        <div className="rootContainer">
-	            <ExpressionBarchart data={chartData} />
-                </div>
+	        <ExpressionBarchart data={chartData} />
             ) : (
                 <Loader />
             )}

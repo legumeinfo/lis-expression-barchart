@@ -1,3 +1,4 @@
+import { ReactChart } from 'chartjs-react';
 import {
     BarController,
     CategoryScale,
@@ -5,9 +6,6 @@ import {
     BarElement,
     Tooltip,
 } from 'chart.js';
-
-import { ReactChart } from 'chartjs-react';
-
 ReactChart.register(BarController, CategoryScale, LinearScale, BarElement, Tooltip);
 
 export function ExpressionBarchart({ data }) {
