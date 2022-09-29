@@ -1,62 +1,32 @@
 /**
- * Create ChartJS data from PathQuery results.
+ * Create ChartJS data from queryData results.
  */
 export default function getChartData(results) {
-    // sort results according to sample number
-    // results.sort((r1, r2) => {
-    // 	let valA, valB;
-    //     valA = r1.sample.num;
-    //     valB = r2.sample.num;
-    //     return valA < valB ? -1 : valA > valB ? 1 : 0;
-    // });
-
     // initialize the chart.js data object
-    // store sampleNames in data for sizing purposes
-    // const data = {
-    //     datasets: [],
-    //     sampleNames: [],
-    // };
-
-    // initialize the chart.js data object
+    // sampleNames are stored for chart sizing purposes
     const data = {
         datasets: [],
         sampleNames: [],
     };
 
-    // available colors for up to 7 sources
-    const backgroundColors = [ '#900', '#090', '#009', '#990', '#909', '#099' ];
-
-
-    // {
-    //     "objectId": 90986843,
-    //     "class": "ExpressionValue",
-    //     "sample": {
-    //         "num": 1,
-    //         "objectId": 7000013,
-    //         "class": "ExpressionSample",
-    //         "name": "LR-112A",
-    //         "description": "Description of this sample.",
-    //         "treatment": "Concentrated salt",
-    //         "replicateGroup": "salt_exposure"
-    //     },
-    //     "source": "CDCFrontier.gnm3.ann1.expr.CDC_Consul.Perilla-Henao_2018",
-    //     "value": 0,
-    //     "feature": "Ca3g022200"
-    // }
-    
+    // colors for up to 10 sources
+    const backgroundColors = [ '#900', '#090', '#009', '#990', '#909', '#099', '#360', '#306', '#036', '#000' ];
 
     // populate the datasets array with data from each source
-    // do we want to scale to log values?
-    // scale value according to log / linear
-    // const scaleVal = n => (scale=='log' ? Math.log2(n) : n);
     var currentSource = null;
     var i = -1;
     results.forEach(result => {
-        var name = "";
-        if (result.sample.replicateGroup) {
-            name = name + result.sample.replicateGroup + ": ";
+        // build sample display name
+        var name = result.sample.num;
+        if (result.sample.genotype) {
+            name = name + "." + result.sample.genotype + ".";
         }
-        name = name + result.sample.name;
+        if (result.sample.tissue) {
+            name = name + result.sample.tissue;
+        }
+        if (result.sample.treatment) {
+            name = name + ":" + result.sample.treatment;
+        }
         const value = result.value;
         const source = result.source;
         if (source != currentSource) {
