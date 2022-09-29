@@ -6,7 +6,7 @@ export default function getChartData(results) {
     // sampleNames are stored for chart sizing purposes
     const data = {
         datasets: [],
-        sampleNames: [],
+        maxSamples: 0
     };
 
     // colors for up to 10 sources
@@ -40,8 +40,14 @@ export default function getChartData(results) {
 	        data: [] });
         }
         data.datasets[i].data.push({ x:value, y:name });
-        data.sampleNames.push(name);
     });
+
+    // find the maximum number of samples in a source
+    for (var i=0; i<data.datasets.length; i++) {
+        if (data.datasets[i].data.length > data.maxSamples) {
+            data.maxSamples = data.datasets[i].data.length;
+        }
+    }
     
     return data;
 }

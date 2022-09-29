@@ -60,20 +60,20 @@ export function ExpressionBarchart({ data, sourceIndex }) {
         }
     };
 
-    const sourceData = {
-        datasets: [
-            data.datasets[sourceIndex]
-        ]
-    }
-
     return (
         <ReactChart
             id="expression-bar-chart"
             type="bar"
-            data={sourceData}
+            data={{
+                datasets: [
+                    data.datasets[sourceIndex]
+                ]
+            }}
             options={options}
-            height={ data.sampleNames.length>30 ? '260px' : data.sampleNames.length*50+'px' }
+            height = { data.maxSamples*6+'px' }
         />
     );
 }
+
+//  height={ data.sampleNames.length>30 ? '260px' : data.sampleNames.length*50+'px' }
 

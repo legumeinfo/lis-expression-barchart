@@ -41,7 +41,7 @@ function RootContainer({ serviceUrl, entity, config }) {
 
     return (
         <div className="rootContainer">
-            {(chartData) ? (
+            {chartData ? (
                 <div>
                     <select name="source" value={sourceIndex} onChange={handleChange}>
                         {chartData.datasets.map((dataset,i) => (
