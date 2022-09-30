@@ -70,7 +70,7 @@ export function ExpressionBarchart({ data, sourceIndex }) {
                 ]
             }}
             options={options}
-            height = { data.maxSamples*3+'px' }
+            height = { data.maxSamples*4+'px' }
         />
     );
 }
