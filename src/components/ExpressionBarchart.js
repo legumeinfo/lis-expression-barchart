@@ -70,10 +70,8 @@ export function ExpressionBarchart({ data, sourceIndex }) {
                 ]
             }}
             options={options}
-            height = { data.maxSamples*6+'px' }
+            height = { data.maxSamples*3+'px' }
         />
     );
 }
-
-//  height={ data.sampleNames.length>30 ? '260px' : data.sampleNames.length*50+'px' }
 

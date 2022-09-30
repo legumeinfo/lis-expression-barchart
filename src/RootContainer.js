@@ -1,3 +1,4 @@
+import React from 'react';
 import Loader from './common/loader';
 import { useState, useEffect } from 'react';
 
@@ -7,7 +8,7 @@ import getChartData from "./chart/getChartData.js";
 
 import { ExpressionBarchart } from "./components/ExpressionBarchart.js";
 
-function RootContainer({ serviceUrl, entity, config }) {
+export default function RootContainer({ serviceUrl, entity, config }) {
     const [error, setError] = useState(null);
     const [chartData, setChartData] = useState(null);
     const [sourceIndex, setSourceIndex] = useState(0);
@@ -36,18 +37,20 @@ function RootContainer({ serviceUrl, entity, config }) {
     // setSources(labels);
 
     if (error) return (
-        <div className="rootContainer error">{ error }</div>
+            <div className="rootContainer error">{ error }</div>
     );
 
     return (
         <div className="rootContainer">
             {chartData ? (
                 <div>
-                    <select name="source" value={sourceIndex} onChange={handleChange}>
-                        {chartData.datasets.map((dataset,i) => (
-                            <option key={i} value={i}>{dataset.source}</option>
-                        ))}
-                    </select>
+		    <div style={{ 'padding':'10px' }}>
+                        <select name="source" value={sourceIndex} onChange={handleChange}>
+                            {chartData.datasets.map((dataset,i) => (
+                                <option key={i} value={i}>{dataset.source}</option>
+                            ))}
+                        </select>
+                    </div>
 	            <ExpressionBarchart data={chartData} sourceIndex={sourceIndex} />
                 </div>
             ) : (
@@ -57,24 +60,3 @@ function RootContainer({ serviceUrl, entity, config }) {
     );
     
 }
-
-// need to export here for some reason
-export default RootContainer;
-
-// {sources ? (
-//     <SourceSelector sources={sources} />
-// ) : (
-//     <Loader />
-// )}
-
-// // query ExpressionSources which have expression for this gene
-// // TIP: useEffect with empty array dependency only runs once!
-// useEffect(() => {
-//     querySources(entity.value, serviceUrl)
-//         .then(response => {
-//             setSources(response);
-//         })
-//         .catch(() => {
-//             setError("No expression data found for this gene.");
-//         });
-// }, []);
