@@ -8,12 +8,41 @@
     // to build your css, run `lessc src/style.css dist/style.css --clean-css`
     // in your terminal
 
+    position: relative;
+    height: 100%;
+    width: 100%;
+
     .error {
 	font-weight: 300;
 	display: flex;
 	justify-content: center;
 	font-size: 22px;
 	font-family: sans-serif;
+    }
+
+    .rootContainer {
+        position: relative;
+        height: 100%;
+        width: 100%;
+    }
+    
+    .chart-container {
+        position: relative;
+        height: 100%;
+        width: 100%;
+    }
+
+    .selector {
+        padding: 10px;
+    }
+
+    .scroll-note {
+        font-style: italic;
+    }
+
+    .synopsis {
+        padding-left: 10px;
+        padding-top: 5px;
     }
 
     .firstGraph {

@@ -11,7 +11,7 @@ import {
 // Register all of your imported stuff!
 ReactChart.register(BarController, CategoryScale, LinearScale, LogarithmicScale, BarElement, Tooltip);
 
-export function ExpressionBarchart({ data, sourceIndex }) {
+export function ExpressionBarchart({ data }) {
     if (!data) return;
 
     // default chart options
@@ -46,7 +46,7 @@ export function ExpressionBarchart({ data, sourceIndex }) {
                 },
             },
         },
-	maintainAspectRatio: true,
+	maintainAspectRatio: false,
 	responsive: true,
         plugins: {
             tooltip: {
@@ -61,17 +61,17 @@ export function ExpressionBarchart({ data, sourceIndex }) {
     };
 
     return (
-        <ReactChart
-            id="expression-bar-chart"
-            type="bar"
-            data={{
-                datasets: [
-                    data.datasets[sourceIndex]
-                ]
-            }}
-            options={options}
-            height = { data.maxSamples*4+'px' }
-        />
+        <div className="chart-container">
+            <ReactChart
+                id="expression-bar-chart"
+                type="bar"
+                data={{
+                    datasets: [
+                        data.datasets[0]
+                    ]
+                }}
+                options={options}
+            />
+        </div>
     );
 }
-

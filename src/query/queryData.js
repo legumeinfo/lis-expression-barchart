@@ -8,9 +8,8 @@ export default function queryData(featureId, serviceUrl, imjsClient = imjs) {
 	service
 	    .records(pathQuery({ featureId }))
 	    .then(data => {
-                // rearrange into expected format
-                data = rearrange(data);
 		if (data && data.length) {
+                    alert(JSON.stringify(data));
                     resolve(data);
 		} else {
                     reject('No data found!');
@@ -32,7 +31,8 @@ const pathQuery = ({ featureId }) => ({
         'sample.tissue',
         'sample.treatment',
         'sample.replicateGroup',
-	'sample.source.primaryIdentifier'
+	'sample.source.primaryIdentifier',
+        'sample.source.synopsis'
     ],
     orderBy: [
         {
@@ -52,30 +52,3 @@ const pathQuery = ({ featureId }) => ({
 	}
     ]
 });
-
-// Rearrange the data from a pathQuery result into the form expected by this tool
-function rearrange(data) {
-    var results = [];
-    for (var i=0; i<data.length; i++) {
-        results.push(
-            {
-                "value": data[i].value,
-                "sample": {
-                    "num": data[i].sample.num,
-                    "name": data[i].sample.name,
-                    "description": data[i].sample.description,
-                    "genotype": data[i].sample.genotype,
-                    "tissue": data[i].sample.tissue,
-                    "treatment": data[i].sample.treatment,
-                    "replicateGroup": data[i].sample.replicateGroup,
-                    "class": data[i].sample.class,
-                    "objectId": data[i].sample.objectId
-                },
-                "source": data[i].sample.source.primaryIdentifier,
-                "class": data[i].class,
-                "objectId": data[i].objectId
-            }
-        );
-    }
-    return(results);
-}

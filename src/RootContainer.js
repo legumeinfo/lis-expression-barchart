@@ -5,58 +5,71 @@ import { useState, useEffect } from 'react';
 import queryData from "./query/queryData.js";
 
 import getChartData from "./chart/getChartData.js";
+import getSources from "./chart/getSources.js";
 
 import { ExpressionBarchart } from "./components/ExpressionBarchart.js";
 
 export default function RootContainer({ serviceUrl, entity, config }) {
+    const featureId = entity.value;
     const [error, setError] = useState(null);
+    // overall data
+    const [response, setResponse] = useState(null);
+    const [sources, setSources] = useState(null);
+    // per source data
+    const [source, setSource] = useState(null);
     const [chartData, setChartData] = useState(null);
-    const [sourceIndex, setSourceIndex] = useState(0);
     
+    // TIP: useEffect with empty array dependency only runs once!
     useEffect(() => {
-        queryData(entity.value, serviceUrl)
+        queryData(featureId, serviceUrl)
             .then(response => {
-                const data = getChartData(response);
-                setChartData(data);
+                setResponse(response);
+                setSources(getSources(response));
             })
             .catch(() => {
                 setError("No expression data found.");
             });
     }, []);
 
-    function handleChange(event) {
-        setSourceIndex(event.target.value);
-    }
-
-    // const [sources, setSources] = useState(null);
-    // const [sourceIndex, setSourceIndex] = useState(0);
-    // const labels = [];
-    // for (var i=0; i<data.datasets.length; i++) {
-    //     labels.push(data.datasets[i].label);
-    // }
-    // setSources(labels);
-
     if (error) return (
             <div className="rootContainer error">{ error }</div>
     );
 
+    // on selector change set the source and get its data
+    function handleChange(event) {
+        var i = event.target.value;
+        if (i < 0) {
+            setSource(null);
+            setChartData(null);
+        } else {
+            setSource(sources[i]);
+            setChartData(getChartData(response, sources[i]));
+        }
+    }
+
     return (
         <div className="rootContainer">
-            {chartData ? (
-                <div>
-		    <div style={{ 'padding':'10px' }}>
-                        <select name="source" value={sourceIndex} onChange={handleChange}>
-                            {chartData.datasets.map((dataset,i) => (
-                                <option key={i} value={i}>{dataset.source}</option>
-                            ))}
-                        </select>
-                    </div>
-	            <ExpressionBarchart data={chartData} sourceIndex={sourceIndex} />
+            {sources && (
+	        <div className="selector">
+                    <select name="sourceIndex" onChange={handleChange}>
+                        <option key={-1} value={-1}>--- SELECT EXPRESSION EXPERIMENT ---</option>
+                        {sources.map((source,i) => (
+                            <option key={i} value={i}>{source.name}</option>
+                        ))}
+                    </select>  <span className="scroll-note">[stretch tool vertically to widen sample rows; scroll up if this selector becomes hidden]</span>
                 </div>
-            ) : (
+            )}
+            {source && (
+                <div className="synopsis">{source.synopsis}</div>
+            )}
+            {chartData && (
+	        <ExpressionBarchart data={chartData} />
+            )}
+            {(!sources && !chartData) && (
                 <Loader />
             )}
         </div>
     );
-    
 }
+
+
