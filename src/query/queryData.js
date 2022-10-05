@@ -9,7 +9,6 @@ export default function queryData(featureId, serviceUrl, imjsClient = imjs) {
 	    .records(pathQuery({ featureId }))
 	    .then(data => {
 		if (data && data.length) {
-                    alert(JSON.stringify(data));
                     resolve(data);
 		} else {
                     reject('No data found!');
