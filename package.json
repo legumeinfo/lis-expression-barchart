@@ -1,6 +1,6 @@
 {
   "name": "legumeinfo/lis-expression-barchart",
-  "version": "2.1.0",
+  "version": "3.0.0",
   "main": "src/index.js",
   "description": "Displays a bar chart of expression versus sample on a gene report page.",
   "homepage": "http://www.intermine.org",
@@ -30,8 +30,6 @@
   "author": "",
   "license": "MIT",
   "dependencies": {
-    "chart.js": "^3.9.1",
-    "chartjs-react": "^3.5.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0"
   },
@@ -41,6 +39,9 @@
     "@babel/preset-react": "^7.0.0",
     "@types/jest": "^24.0.13",
     "babel-loader": "^8.0.6",
+    "canvasxpress": "^41.3.4",
+    "canvasxpress-react": "^41.3.4",
+    "css-loader": "^5.2.7",
     "chokidar": "^3.0.0",
     "eslint": "^5.16.0",
     "eslint-config-prettier": "^4.2.0",

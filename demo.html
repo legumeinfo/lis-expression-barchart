@@ -32,11 +32,11 @@
     <div id="visualizer" class="lisExpressionBarchart main-container" />
     <script>
       window.onload = function() {
-          // The element to attach the viewer to. Must be an existing DOM element
+          // The element to attach the viewer to. Must be an existing DOM elemetn
           var elem = document.getElementById('visualizer');
           // InterMine service, including URL and token.
     	  var imURL = {
-    	      root: 'https://lis.ncgr.org/cicermine'
+    	      root: 'https://mines.legumeinfo.org/cicermine'
     	      //could include token here too if we had one
     	  };
     	  // this is an example of data that could be passed to this tool be BlueGenes
@@ -46,8 +46,7 @@
 	      Gene: {
 	          class: 'Gene',
 	          format: 'id',
-                  // a single CicerMine gene with expression -- NOT an array!
-	          value: 5609734
+                  value: 16760906
 	      }
           };
     	  var toolState = {}; //to be confirmed how we use this.
