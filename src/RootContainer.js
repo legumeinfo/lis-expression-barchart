@@ -4,10 +4,10 @@ import CanvasXpressReact from 'canvasxpress-react';
 
 import Loader from './common/loader';
 
-import querySources from "./query/querySources.js";
-import queryExpressionData from "./query/queryExpressionData.js";
+import querySources from "./querySources.js";
+import queryExpressionData from "./queryExpressionData.js";
 
-import getData from "./chart/getData.js";
+import getData from "./getData.js";
 
 export default function RootContainer({ serviceUrl, entity, config }) {
     const featureId = entity.value;
@@ -18,7 +18,6 @@ export default function RootContainer({ serviceUrl, entity, config }) {
     // per source data
     const [source, setSource] = useState(null);
     const [data, setData] = useState(null);
-    //    const [chartData, setChartData] = useState(null);
 
     const conf = {
         "axisAlgorithm": "wilkinson",
@@ -39,7 +38,8 @@ export default function RootContainer({ serviceUrl, entity, config }) {
 
     const evts = {
         mousemove: function(o, e, t) {
-            const sample = o.y.smps;
+            t.showInfoSpan(e, '<pre>x=' + e.clientX + ' y=' + e.clientY + '</pre>');
+            // const sample = o.y.smps;
             // const genotype = String(genotypesJSON${index}[sample]);
             // const tissue = String(tissuesJSON${index}[sample]);
             // const treatment = String(treatmentsJSON${index}[sample]);
@@ -50,6 +50,12 @@ export default function RootContainer({ serviceUrl, entity, config }) {
             // if (treatment!="undefined") s += ":" + treatment;
             // if (description!="undefined") s += ":" + description;
             // t.showInfoSpan(e, s);
+        },
+        mouseout: function(o, e, t) {
+        },
+        click: function(o, e, t) {
+        },
+        dblclick: function(o, e, t) {
         }
     }
     
@@ -69,9 +75,20 @@ export default function RootContainer({ serviceUrl, entity, config }) {
         setGraph(graph);
     }
 
-    if (error) return (
-            <div className="rootContainer error">{ error }</div>
-    );
+    // DEBUG static source choice
+    useEffect(() => {
+        if (sources && sources.length===6) {
+            const i = 5;
+            setSource(sources[i]);
+            queryExpressionData(serviceUrl, sources[i], featureId)
+                .then(response => {
+                    setData(getData(response));
+                })
+                .catch(() => {
+                    setError("No expression data found in "+sources[i].primaryIdentifier+" for this gene.");
+                });
+        }
+    }, [sources]);
 
     // on selector change set the source and get its data
     function handleChange(event) {
@@ -91,6 +108,10 @@ export default function RootContainer({ serviceUrl, entity, config }) {
         }
     }
 
+    if (error) return (
+        <div className="rootContainer error">{ error }</div>
+    );
+        
     // show legend if we have rep groups
     if (data) {
         conf["showLegend"] = Object.keys(data.x).length > 0;
@@ -98,32 +119,27 @@ export default function RootContainer({ serviceUrl, entity, config }) {
 
     return (
         <div className="rootContainer">
-            {sources && (
-	        <div className="selector">
-                    <select name="sourceIndex" onChange={handleChange}>
-                        <option key={-1} value={-1}>--- SELECT EXPRESSION EXPERIMENT ---</option>
-                        {sources.map((source,i) => (
-                            <option key={i} value={i}>{source.primaryIdentifier}</option>
-                        ))}
-                    </select>
-                </div>
-            )}
-            {source && (
-                <div className="synopsis">{source.synopsis}</div>
-            )}
             {data && (
-                <div className="canvas">
-                    <CanvasXpressReact target={"canvas"} data={data} config={conf} events={evts} height={800} width={1150} onRef={onRef} />
-                </div>
-            )}
-            {!sources && (
-                <Loader />
+                <CanvasXpressReact target={"canvas"} data={data} config={conf} events={evts} height={800} width={1150} onRef={onRef} />
             )}
         </div>
     );
 }
 
-
-            // {chartData && (
-	    //     <ExpressionBarchart data={chartData} />
+            // {sources && (
+	    //     <div className="selector">
+            //         <select name="sourceIndex" onChange={handleChange}>
+            //             <option key={-1} value={-1}>--- SELECT EXPRESSION EXPERIMENT ---</option>
+            //             {sources.map((source,i) => (
+            //                 <option key={i} value={i}>{source.primaryIdentifier}</option>
+            //             ))}
+            //         </select>
+            //     </div>
             // )}
+            // {source && (
+            //     <div className="synopsis">{JSON.stringify(source)}|{source.synopsis}</div>
+            // )}
+            // {!sources && (
+            //     <Loader />
+            // )}
+
