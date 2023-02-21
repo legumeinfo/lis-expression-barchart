@@ -32,8 +32,7 @@ export default function RootContainer({ serviceUrl, entity, config }) {
         "smpTitle": "Mouse over bar for full sample description",
         "legendPosition": "right",
         "colorScheme": "CanvasXpress",
-        "colorBy": "repgroup",
-        "xAxisTitle": "TPM"
+        "colorBy": "repgroup"
     }
 
     const evts = {
@@ -70,76 +69,64 @@ export default function RootContainer({ serviceUrl, entity, config }) {
             });
     }, []);
 
+    // set the expression unit and show the legend if we have rep groups
+    if (data) {
+        conf["xAxisTitle"] = source.unit;
+        conf["showLegend"] = data.x.repgroup.length > 0;
+    }
+
     // set the graph reference
     function onRef(graph) {
         setGraph(graph);
     }
-
-    // DEBUG static source choice
-    useEffect(() => {
-        if (sources && sources.length===6) {
-            const i = 5;
-            setSource(sources[i]);
-            queryExpressionData(serviceUrl, sources[i], featureId)
-                .then(response => {
-                    setData(getData(response));
-                })
-                .catch(() => {
-                    setError("No expression data found in "+sources[i].primaryIdentifier+" for this gene.");
-                });
-        }
-    }, [sources]);
 
     // on selector change set the source and get its data
     function handleChange(event) {
         var i = event.target.value;
         if (i < 0) {
             setSource(null);
-            // setChartData(null);
+            setData(null);
+            setError(null);
         } else {
             setSource(sources[i]);
             queryExpressionData(serviceUrl, sources[i], featureId)
                 .then(response => {
-                    setData(getData(response));
+                    const data = getData(response);
+                    setError(null);
+                    setData(data);
                 })
                 .catch(() => {
+                    setData(null);
                     setError("No expression data found in "+sources[i].primaryIdentifier+" for this gene.");
                 });
         }
     }
 
-    if (error) return (
-        <div className="rootContainer error">{ error }</div>
-    );
-        
-    // show legend if we have rep groups
-    if (data) {
-        conf["showLegend"] = Object.keys(data.x).length > 0;
-    }
-
     return (
         <div className="rootContainer">
+            {sources && (
+	        <div className="selector">
+                    <select name="sourceIndex" onChange={handleChange}>
+                        <option key={-1} value={-1}>--- SELECT EXPRESSION EXPERIMENT ---</option>
+                        {sources.map((source,i) => (
+                            <option key={i} value={i}>{source.primaryIdentifier}</option>
+                        ))}
+                    </select>
+                </div>
+            )}
+            {error && (
+                <div className="synopsis">{error}</div>
+            )}
             {data && (
-                <CanvasXpressReact target={"canvas"} data={data} config={conf} events={evts} height={800} width={1150} onRef={onRef} />
+                <div>
+                    <div className="synopsis">{source.synopsis}</div>
+                    <CanvasXpressReact target={"canvas"} data={data} config={conf} events={evts} height={800} width={1150} onRef={onRef} />
+                </div>
+            )}
+            {!sources && (
+                <Loader />
             )}
         </div>
     );
 }
-
-            // {sources && (
-	    //     <div className="selector">
-            //         <select name="sourceIndex" onChange={handleChange}>
-            //             <option key={-1} value={-1}>--- SELECT EXPRESSION EXPERIMENT ---</option>
-            //             {sources.map((source,i) => (
-            //                 <option key={i} value={i}>{source.primaryIdentifier}</option>
-            //             ))}
-            //         </select>
-            //     </div>
-            // )}
-            // {source && (
-            //     <div className="synopsis">{JSON.stringify(source)}|{source.synopsis}</div>
-            // )}
-            // {!sources && (
-            //     <Loader />
-            // )}
 

@@ -18,12 +18,12 @@ export default function querySources(serviceUrl, imjsClient = imjs) {
     });
 }
 
-// ExpressionSource.id
 // ExpressionSource.primaryIdentifier
 // ExpressionSource.synopsis
 // ExpressionSource.description
 // ExpressionSource.bioProject
 // ExpressionSource.sra
+// ExpressionSource.unit
 const pathQuery = () => ({
     from: 'ExpressionSource',
     select: [
@@ -31,7 +31,8 @@ const pathQuery = () => ({
         'synopsis',
         'description',
         'bioProject',
-        'sra'
+        'sra',
+        'unit'
     ],
     orderBy: [
         { path: 'primaryIdentifier', direction: 'ASC' }
